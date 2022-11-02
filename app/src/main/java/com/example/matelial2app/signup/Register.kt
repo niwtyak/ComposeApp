@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
+import com.example.matelial2app.models.Role
 import com.example.matelial2app.models.User
-
 
 @Composable
 fun Register(navController: NavController) {
@@ -79,7 +79,7 @@ fun Register(navController: NavController) {
                     onDismissRequest = { expanded = false },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    User.Companion.Role.values().forEach { role ->
+                    Role.values().forEach { role ->
                         DropdownMenuItem(onClick = {
                             selectedRole = role.toString()
                             expanded = false

@@ -4,21 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class User (
     @SerializedName("id")
-    val id:Int?,
+    val id:Int,
     @SerializedName("name")
-    val name:String?,
+    val name:String,
     @SerializedName("password")
-    val password:String?,
+    val password:String,
     @SerializedName("role")
-    val role: Role?,
+    val role: String,
     @SerializedName("content")
-    val content: List<Post>?
+    val content: List<Post>
         ){
 
-    companion object {
-        enum class Role{
-        admin, creator, consumer
-        }
-    }
+}
 
+enum class Role{
+    admin, creator, consumer
 }
