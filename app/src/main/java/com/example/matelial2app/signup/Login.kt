@@ -15,10 +15,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.matelial2app.client.RetrofitClient
+import com.example.matelial2app.interfaces.RetrofitServices
 
 
 @Composable
-fun Login(navController: NavController) {
+fun Login(navController: NavController,retrofitClient: RetrofitServices) {
     var loginValue by remember { mutableStateOf(TextFieldValue("")) }
     var passwordValue by remember { mutableStateOf(TextFieldValue("")) }
 

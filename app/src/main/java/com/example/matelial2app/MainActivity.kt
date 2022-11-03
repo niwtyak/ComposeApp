@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     color = Color.White
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    NavGraph(navController = navController, retrofitClient = flaskApi)
                 }
 
             }

@@ -1,5 +1,7 @@
 package com.example.matelial2app.interfaces
+
 import com.example.matelial2app.models.User
+import com.example.matelial2app.models.UserRegister
 import com.example.matelial2app.models.UsersResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -12,9 +14,10 @@ interface RetrofitServices {
     suspend fun getUsers(): Response<UsersResponse>
 
     @POST("login")
-    fun login():Call<Pair<String,String>>
+    fun login(): Call<Pair<String, String>>
 
+    @Headers("Content-Type: application/json")
     @POST("register")
-    fun register():Call<User>
+    suspend fun register(@Body userdata: UserRegister): Response<User>
 
 }

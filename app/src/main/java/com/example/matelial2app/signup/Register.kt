@@ -1,5 +1,7 @@
 package com.example.matelial2app.signup
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,11 +20,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
+import com.example.matelial2app.client.RetrofitClient
+import com.example.matelial2app.interfaces.RetrofitServices
 import com.example.matelial2app.models.Role
 import com.example.matelial2app.models.User
+import com.example.matelial2app.models.UserRegister
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 @Composable
-fun Register(navController: NavController) {
+fun Register(navController: NavController, flaskApi: RetrofitServices) {
     var expanded by remember { mutableStateOf(false) }
     var selectedRole by remember { mutableStateOf("admin") }
     val icon = if (expanded)
@@ -92,12 +101,30 @@ fun Register(navController: NavController) {
 
             Button(
                 onClick = {
-                        navController.navigateUp()
-                },
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = "REGISTER", modifier = Modifier.padding(8.dp))
-            }
-        }
+                    val newUser = UserRegister(
+                        name = loginValue.text,
+                        password = passwordValue.text,
+                        role = selectedRole
+                    )
+
+                    GlobalScope.launch() {
+                        try {
+                        val response = flaskApi.register(newUser)
+                        if (response.isSuccessful) {
+                            Log.d("response", response.body().toString())
+
+                        } else {
+
+                        }
+                    } catch (Ex: Exception) {
+                    Log.e("error", Ex.localizedMessage as String)
+                }
+                }
+        },
+        modifier = Modifier.padding(8.dp)
+        ) {
+        Text(text = "REGISTER", modifier = Modifier.padding(8.dp))
     }
+    }
+}
 }
