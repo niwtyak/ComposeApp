@@ -35,15 +35,19 @@ fun Register(navController: NavController, flaskApi: RetrofitServices) {
     var expanded by remember { mutableStateOf(false) }
     var selectedRole by remember { mutableStateOf("admin") }
     val icon = if (expanded)
-        Icons.Filled.KeyboardArrowUp //it requires androidx.compose.material:material-icons-extended
+        Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.ArrowDropDown
 
     var loginValue by remember { mutableStateOf(TextFieldValue("")) }
     var passwordValue by remember { mutableStateOf(TextFieldValue("")) }
 
+    val coroutineScope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
 
     Surface(color = Color.White) {
+        Scaffold( scaffoldState = scaffoldState)
+        {
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -107,24 +111,37 @@ fun Register(navController: NavController, flaskApi: RetrofitServices) {
                         role = selectedRole
                     )
 
-                    GlobalScope.launch() {
+                    coroutineScope.launch() {
                         try {
-                        val response = flaskApi.register(newUser)
-                        if (response.isSuccessful) {
-                            Log.d("response", response.body().toString())
-
-                        } else {
-
+                            val response = flaskApi.register(newUser)
+                            if (response.isSuccessful) {
+                                Log.d("response", response.body().toString())
+                                scaffoldState.snackbarHostState
+                                    .showSnackbar(
+                                        message = "successful",
+                                        actionLabel = "Ok",
+                                        duration = SnackbarDuration.Indefinite
+                                    )
+                            } else {
+                              scaffoldState.snackbarHostState
+                                    .showSnackbar(
+                                        message = response.errorBody().toString(),
+                                        actionLabel = "ok",
+                                        duration = SnackbarDuration.Indefinite
+                                    )
+                            }
+                        } catch (Ex: Exception) {
+                            Log.e("error", Ex.localizedMessage as String)
                         }
-                    } catch (Ex: Exception) {
-                    Log.e("error", Ex.localizedMessage as String)
-                }
-                }
-        },
-        modifier = Modifier.padding(8.dp)
-        ) {
-        Text(text = "REGISTER", modifier = Modifier.padding(8.dp))
-    }
+                    }
+
+                    navController.navigateUp()
+                },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = "REGISTER", modifier = Modifier.padding(8.dp))
+            }
+        }
     }
 }
 }

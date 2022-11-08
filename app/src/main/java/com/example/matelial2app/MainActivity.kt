@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.matelial2app.client.RetrofitClient
 import com.example.matelial2app.interfaces.RetrofitServices
 import com.example.matelial2app.navigation.NavGraph
+import com.example.matelial2app.signup.SingupViewModel
 import com.example.matelial2app.ui.theme.Matelial2appTheme
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,7 +27,9 @@ class MainActivity : ComponentActivity() {
 
         val flaskApi = RetrofitClient.getClient().create(RetrofitServices::class.java)
 
-        GlobalScope.launch {
+
+
+       /* GlobalScope.launch {
             try {
                 val response = flaskApi.getUsers()
                 if (response.isSuccessful) {
@@ -42,7 +46,7 @@ class MainActivity : ComponentActivity() {
             } catch (Ex: Exception) {
                 Log.e("error", Ex.localizedMessage as String)
             }
-        }
+        }*/
 
         setContent {
             Matelial2appTheme {
